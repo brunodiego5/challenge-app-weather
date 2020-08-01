@@ -19,7 +19,7 @@ app_id = 'X3Cwpeni'
 consumer_key = 'dj0yJmk9NWd2R1RaQVZUR3FOJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTUz'
 consumer_secret = '401c2150213a5e94ce9fb55c0d1e6f911caf1c1f'
 concat = '&'
-query = {'location': 'sunnyvale,ca', 'format': 'json'}
+query = {'location': 'guararapes', 'format': 'json', 'u': 'c'}
 oauth = {
     'oauth_consumer_key': consumer_key,
     'oauth_nonce': uuid.uuid4().hex,
