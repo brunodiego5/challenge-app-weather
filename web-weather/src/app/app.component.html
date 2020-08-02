@@ -1,0 +1,8 @@
+<form (submit)="getTemperature()">
+  <label for="city">Cidade</label>
+  <input [(ngModel)]="cityName" type="text" name="city" id="city">
+  <p>{{city?.name}}</p>
+  <p>{{city?.weather?.temperature}}</p>
+  <button type="submit">OK</button>
+</form>
+<router-outlet></router-outlet>
