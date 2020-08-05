@@ -6,25 +6,27 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class DashboardService {
 
+  api = 'http://127.0.0.1:8000/';
+
   constructor(private http: HttpClient) { }
 
-  getWeatherByCityName(cityName: string) {
+  getWeatherCity(city: string) {
     let params = new HttpParams();
 
-    params = params.append('cityName', cityName);
+    params = params.append('city', city);
 
     return this.http.get<any>(`
-        https://8000-a2965d77-2116-4a07-9c23-3b330807bc65.ws-us02.gitpod.io/citys/bycity/`, {params});
+        ${this.api}weather/city`, {params});
   }
 
-  getWeatherByLatLon(lat: number, lon: number) {
+  getWeatherGeo(lat: number, lon: number) {
     let params = new HttpParams();
 
     params = params.append('lat', lat.toString());
     params = params.append('lon', lon.toString());
 
     return this.http.get<any>(`
-        https://8000-a2965d77-2116-4a07-9c23-3b330807bc65.ws-us02.gitpod.io/citys/bylatlon/`, {params});
+    ${this.api}weather/geo`, {params});
   }
 
 }

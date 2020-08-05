@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../dashboard.service';
-
+import { Weather } from '../../models';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,45 +9,32 @@ import { DashboardService } from '../dashboard.service';
 
 export class DashboardComponent implements OnInit {
 
-  city: any;
-  cityName: string = "guararapes";
-  latitude: number = 0;
-  longitude: number = 0;
-
+  weather: Weather;
 
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
     navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            this.latitude = latitude;
-            this.longitude = longitude;
+      (position) => {
+        const { latitude, longitude } = position.coords;
 
-            console.log('latitude: ', this.latitude);
-            console.log('longitude: ', this.longitude);
+        this.dashboardService.getWeatherGeo(latitude, longitude)
+          .subscribe(weather => {
+            this.weather = weather;
+          });
 
-            this.dashboardService.getWeatherByLatLon(this.latitude, this.longitude)
-              .subscribe(city => {
-                  this.city = city;
-                  this.cityName = city?.name;
-                });
-
-          },
-          (err) => {
-            console.log(err);
-          },
-          {
-            timeout: 30000,
-          }
-        );
-
-
+      },
+      (err) => {
+        console.log(err);
+      },
+      {
+        timeout: 30000,
+      }
+    );
   }
 
   getWeatherByCityName() {
-    this.dashboardService.getWeatherByCityName(this.cityName)
-        .subscribe(city => this.city = city);
+    this.dashboardService.getWeatherCity(this.weather?.city)
+        .subscribe(weather => this.weather = weather);
   }
-
 }
