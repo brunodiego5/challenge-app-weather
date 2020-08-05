@@ -7,8 +7,8 @@ from app.services.openweathermap import OpenWeatherMapService
 router = APIRouter()
 
 @router.get("/city", response_model=Weather)
-def read_weather_city(city: str):
-    response = OpenWeatherMapService.read_weather_city(city)
+def read_weather_city(name: str):
+    response = OpenWeatherMapService.read_weather_city(name)
     
     return response_data(response)
 

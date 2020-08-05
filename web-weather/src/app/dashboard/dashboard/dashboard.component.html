@@ -1,9 +1,10 @@
-<div>
-  <form (submit)="getWeatherByCityName()">
-    <label for="city">Cidade</label>
-    <input [(ngModel)]="weather.city" type="text" name="city" id="city">
-    <p>{{weather?.city}}</p>
-    <p>{{weather?.temperature}}</p>
-    <button type="submit">OK</button>
-  </form>
+<div class="wrapper">
+  <div class="content">
+    <form (submit)="getWeatherByCityName()">
+      <p><b>{{weather?.temperature}}°</b></p>
+      <p>{{weather?.city}}</p>
+      <input [(ngModel)]="weather.city" type="text" name="city" id="city">
+      <button type="submit">OK</button>
+    </form>
+  </div>
 </div>

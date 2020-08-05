@@ -3,8 +3,8 @@ import requests
 class OpenWeatherMapService:
 
     @staticmethod
-    def read_weather_city(city = ""):
-        response = requests.get(f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid=92e34d7b6a1f0f906b27622b1b2cdddd&units=metric")
+    def read_weather_city(name = ""):
+        response = requests.get(f"http://api.openweathermap.org/data/2.5/weather?q={name}&appid=92e34d7b6a1f0f906b27622b1b2cdddd&units=metric")
       
         return response
     

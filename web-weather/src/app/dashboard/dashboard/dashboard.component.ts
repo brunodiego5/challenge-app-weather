@@ -9,7 +9,7 @@ import { Weather } from '../../models';
 
 export class DashboardComponent implements OnInit {
 
-  weather: Weather;
+  weather: Weather = new Weather();
 
   constructor(private dashboardService: DashboardService) { }
 

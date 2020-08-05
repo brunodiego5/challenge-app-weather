@@ -10,10 +10,10 @@ export class DashboardService {
 
   constructor(private http: HttpClient) { }
 
-  getWeatherCity(city: string) {
+  getWeatherCity(name: string) {
     let params = new HttpParams();
 
-    params = params.append('city', city);
+    params = params.append('name', name);
 
     return this.http.get<any>(`
         ${this.api}weather/city`, {params});

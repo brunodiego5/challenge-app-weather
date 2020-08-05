@@ -1,4 +1,4 @@
 export class Weather {
-  city: string;
+  city: string = "";
   temperature: number;
 }
