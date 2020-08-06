@@ -28,5 +28,9 @@ def response_data(response: Response):
     weather.city = data['name']
     temp = data['main']['temp'] 
     weather.temperature = temp + (1 if temp % int(temp) else 0)
+    weather.description = data['weather'][0]['description']
+    weather.currently = data['weather'][0]['main']
+    weather.date = data['dt']
+
 
     return weather
