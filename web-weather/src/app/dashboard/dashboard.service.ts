@@ -6,7 +6,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class DashboardService {
 
-  api = 'http://127.0.0.1:8000/';
+  //api = 'http://127.0.0.1:8000/';
+  api = 'https://8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io/';
 
   constructor(private http: HttpClient) { }
 

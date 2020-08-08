@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.endpoints import weather
+from app.endpoints import cities
 
 app = FastAPI()
 
@@ -18,3 +19,4 @@ app.add_middleware(
 )
 
 app.include_router(weather.router, prefix="/weather", tags=["weather"])
+app.include_router(cities.router, prefix="/cities", tags=["cities"])

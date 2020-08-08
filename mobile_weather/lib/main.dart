@@ -32,7 +32,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var api = '10.0.2.2:8000';
+  //var api = '10.0.2.2:8000';
+  //var api = '192.168.1.101:8000';
+  //var api = 'http://127.0.0.1:8000/';
+  var api = '8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io';
   var city;
   var temperature;
   var description;
@@ -42,11 +45,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future getWeatherCity(city) async {
     var query = {"name": city.toString()};
-    var uri = Uri.http(api, '/weather/city', query);
+    //var uri = Uri.http(api, '/weather/city', query);
+    var uri = Uri.https(api, '/weather/city', query);
 
-    var response =
-        await http.get(uri);
+    var response = await http.get(uri);
     var results = convert.jsonDecode(response.body);
+
     setState(() {
       this.city = results['city'];
       this.temperature = results['temperature'];
@@ -57,14 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future getWeatherGeo(lat, lon) async {
-    var query = {
-        "lat": lat.toString(),
-        "lon": lon.toString()
-    };
-    var uri = Uri.http(api, '/weather/geo', query);
+    var query = {"lat": lat.toString(), "lon": lon.toString()};
+    //var uri = Uri.http(api, '/weather/geo', query);
+    var uri = Uri.https(api, '/weather/geo', query);
 
-    var response =
-    await http.get(uri);
+    var response = await http.get(uri);
     var results = convert.jsonDecode(response.body);
     setState(() {
       this.city = results['city'];
@@ -76,12 +77,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<geo.Position> getPosition() async {
-    geo.Geolocator geolocator = geo.Geolocator()..forceAndroidLocationManager = true;
-    geo.GeolocationStatus geolocationStatus  = await geolocator.checkGeolocationPermissionStatus();
+    geo.Geolocator geolocator = geo.Geolocator()
+      ..forceAndroidLocationManager = true;
+    geo.GeolocationStatus geolocationStatus =
+        await geolocator.checkGeolocationPermissionStatus();
 
-    geo.Position position = await geolocator.getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
+    geo.Position position = await geolocator.getCurrentPosition(
+        desiredAccuracy: geo.LocationAccuracy.high);
     return position;
-   }
+  }
 
   @override
   void initState() {
@@ -89,12 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
     this.getWeatherCity("guararapes");
 
     var position = this.getPosition();
-    position.then((p) =>
-      this.getWeatherGeo(p.latitude, p.longitude)
-    ).catchError((e) {
+    position
+        .then((p) => this.getWeatherGeo(p.latitude, p.longitude))
+        .catchError((e) {
       print(e);
     });
-
   }
 
   @override
@@ -119,7 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              temperature != null ? temperature.toString() + "\u00B0" : "Loading",
+              temperature != null
+                  ? temperature.toString() + "\u00B0"
+                  : "Loading",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 40.0,
@@ -129,6 +134,16 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
                 currently != null ? currently.toString() : "Loading",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Text(
+                description != null ? description.toString() : "Loading",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.0,
