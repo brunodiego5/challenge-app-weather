@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { DashboardService } from '../dashboard.service';
-import { Weather } from '../../models';
+import { Weather, City } from '../../models';
+import { switchMap, debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { from } from 'rxjs';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -8,10 +12,14 @@ import { Weather } from '../../models';
 })
 
 export class DashboardComponent implements OnInit {
+  searchForm: FormGroup;
+  searchControl: FormControl;
 
   weather: Weather = new Weather();
+  cities: City[];
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
     navigator.geolocation.getCurrentPosition(
@@ -31,6 +39,20 @@ export class DashboardComponent implements OnInit {
         timeout: 30000,
       }
     );
+
+    this.searchControl = this.fb.control('');
+    this.searchForm = this.fb.group({
+      searchControl: this.searchControl
+    });
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(searchTerm =>
+          this.dashboardService.getCitiesByName(searchTerm)
+          .pipe(catchError(error => from([]))))
+      ).subscribe(cities => this.cities = cities);
   }
 
   getWeatherByCityName() {

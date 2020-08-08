@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { City } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  //api = 'http://127.0.0.1:8000/';
-  api = 'https://8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io/';
+  api = 'http://127.0.0.1:8000/';
+  //api = 'https://8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io/';
 
   constructor(private http: HttpClient) { }
 
@@ -29,5 +31,19 @@ export class DashboardService {
     return this.http.get<any>(`
     ${this.api}weather/geo`, {params});
   }
+
+  getCityById(id: number) {
+    return this.http.get<any>(`
+        ${this.api}cities/${id}`);
+  }
+
+  getCitiesByName(name: string):Observable<City[]> {
+    let params = new HttpParams();
+
+    params = params.append('name', name);
+    return this.http.get<City[]>(`
+        ${this.api}cities`, {params});
+  }
+
 
 }

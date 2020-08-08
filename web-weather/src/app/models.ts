@@ -5,3 +5,8 @@ export class Weather {
   currently: string = "";
   date: number = 0;
 }
+export class City {
+    country: string = "";
+    id: number = 0;
+    name: string = "";
+}

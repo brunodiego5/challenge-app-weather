@@ -21,5 +21,5 @@ class City(BaseModel):
             "$options" :'i'
             } 
         }
-        results = cities.find(query)
+        results = cities.find(query).limit(5)
         return list(results)

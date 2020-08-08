@@ -1,9 +1,18 @@
 <div class="wrapper">
   <div class="content">
-    <form (submit)="getWeatherByCityName()">
+    <form [formGroup]="searchForm" autocomplete="false">
       <p><b>{{weather?.temperature}}°</b></p>
       <p>{{weather?.city}}</p>
-      <input [(ngModel)]="weather.city" type="text" name="city" id="city">
+      <input type="text" name="city" id="city"
+        type="text" #iptSearch
+        formControlName="searchControl"
+        autocomplete="false"
+      >
+      <div class="content-list" *ngIf="cities?.length !== 0">
+        <ul *ngFor="let city of cities">
+          <li>{{city.name}}, {{city.country}}</li>
+        </ul>
+      </div>
       <button type="submit">OK</button>
     </form>
   </div>
