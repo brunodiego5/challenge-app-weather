@@ -1,12 +1,12 @@
 <div class="wrapper">
   <div class="content">
-    <form [formGroup]="searchForm" autocomplete="false">
+    <form [formGroup]="searchForm" autocomplete="off">
       <p><b>{{weather?.temperature}}°</b></p>
       <p>{{weather?.city}}</p>
       <input type="text" name="city" id="city"
         type="text" #iptSearch
         formControlName="searchControl"
-        autocomplete="false"
+        autocomplete="new-password"
       >
       <div class="content-list" *ngIf="cities?.length !== 0">
         <ul *ngFor="let city of cities">
