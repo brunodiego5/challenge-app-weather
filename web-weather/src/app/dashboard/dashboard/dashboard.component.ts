@@ -4,6 +4,7 @@ import { DashboardService } from '../dashboard.service';
 import { Weather, City } from '../../models';
 import { switchMap, debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
 import { from } from 'rxjs';
+import { faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ import { from } from 'rxjs';
 export class DashboardComponent implements OnInit {
   searchForm: FormGroup;
   searchControl: FormControl;
+  faCrosshairs = faCrosshairs;
 
   weather: Weather = new Weather();
   cities: City[];
