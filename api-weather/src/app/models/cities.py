@@ -15,6 +15,9 @@ class City(BaseModel):
 
     @staticmethod
     def find(name: str = ""):
+        if (name == ""):    
+            return []
+
         cities = db['cities']
         query = { "name": { 
             "$regex": f'^{name}',

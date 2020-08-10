@@ -32,10 +32,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //var api = '10.0.2.2:8000';
+  var api = '10.0.2.2:8000';
   //var api = '192.168.1.101:8000';
   //var api = 'http://127.0.0.1:8000/';
-  var api = '8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io';
+  //var api = '8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io';
   var city;
   var temperature;
   var description;
@@ -45,8 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future getWeatherCity(city) async {
     var query = {"name": city.toString()};
-    //var uri = Uri.http(api, '/weather/city', query);
-    var uri = Uri.https(api, '/weather/city', query);
+    var uri = Uri.http(api, '/weather/city', query);
+    //var uri = Uri.https(api, '/weather/city', query);
 
     var response = await http.get(uri);
     var results = convert.jsonDecode(response.body);

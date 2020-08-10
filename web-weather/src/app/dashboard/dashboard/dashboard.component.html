@@ -1,44 +1,33 @@
 <div class="wrapper">
   <div class="content">
       <form [formGroup]="searchForm" autocomplete="off">
-        <fa-icon [classes]="['my-icon']" [icon]="faCrosshairs"></fa-icon>
-        <button type="submit">OK</button>
-        <input type="text" name="city" id="city"
+        <span (click)="getWeatherByGeo()">
+          <fa-icon
+            [icon]="faCrosshairs"
+            size="2x"
+            [styles]="{'stroke': 'white', 'color': 'white'}"
+            [classes]="['my-icon']">
+          </fa-icon>
+        </span>
+        <input type="text" name="city0" id="city0"
           type="text" #iptSearch
           formControlName="searchControl"
           autocomplete="new-password"
+          autocomplete="off"
         >
-        <!--<div class="content-list" *ngIf="cities?.length !== 0">
+        <div class="content-list" *ngIf="cities?.length !== 0">
           <ul *ngFor="let city of cities">
-            <li>
+            <li (click)="getWeatherByCityName(city)">
               <span>{{city.name}}, {{city.country}}</span>
-            </li>
-          </ul>
-        </div>-->
-
-        <div class="content-list">
-          <ul>
-            <li>
-              <span>São Paulo, BR</span>
-            </li>
-            <li>
-              <span>Rio de Janeiro, BR</span>
-            </li>
-            <li>
-              <span>Guararapes, BR</span>
-            </li>
-              <li>
-              <span>Limeira, BR</span>
-              </li>
-              <li>
-              <span>Campinas, BR</span>
             </li>
           </ul>
         </div>
       </form>
-      <div>
-        <p><b>{{weather?.temperature}}°</b></p>
+      <div *ngIf="!loading">
         <p>{{weather?.city}}</p>
+        <p>{{weather?.description}}</p>
+        <p><b>{{weather?.temperature}}°</b></p>
       </div>
+      <div *ngIf="loading" class="loader">Loading...</div>
   </div>
 </div>

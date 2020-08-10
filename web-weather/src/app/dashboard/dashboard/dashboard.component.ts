@@ -18,29 +18,16 @@ export class DashboardComponent implements OnInit {
   faCrosshairs = faCrosshairs;
 
   weather: Weather = new Weather();
+  city: City = new City();
   cities: City[];
+  loading = false;
+
 
   constructor(private dashboardService: DashboardService,
               private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-
-        this.dashboardService.getWeatherGeo(latitude, longitude)
-          .subscribe(weather => {
-            this.weather = weather;
-          });
-
-      },
-      (err) => {
-        console.log(err);
-      },
-      {
-        timeout: 30000,
-      }
-    );
+    this.getWeatherByGeo();
 
     this.searchControl = this.fb.control('');
     this.searchForm = this.fb.group({
@@ -57,8 +44,40 @@ export class DashboardComponent implements OnInit {
       ).subscribe(cities => this.cities = cities);
   }
 
-  getWeatherByCityName() {
-    this.dashboardService.getWeatherCity(this.weather?.city)
-        .subscribe(weather => this.weather = weather);
+  getWeatherByGeo() {
+
+    this.loading = true;
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        this.dashboardService.getWeatherGeo(latitude, longitude)
+          .subscribe(weather => {
+            this.weather = weather;
+            this.loading = false;
+          });
+
+      },
+      (err) => {
+        this.loading = false;
+        console.log(err);
+      },
+      {
+        timeout: 30000,
+      }
+    );
+  }
+
+  getWeatherByCityName(city) {
+    this.loading = true;
+    this.cities = [];
+    this.searchControl.setValue('');
+    if (city?.name != '') {
+      this.dashboardService.getWeatherCity(city?.name)
+        .subscribe(weather => {
+          this.weather = weather
+          this.loading = false;
+        });
+    }
   }
 }
