@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
 
   weather: Weather = new Weather();
   city: City = new City();
-  cities: City[];
+  cities: City[] = [];
   loading = false;
 
 

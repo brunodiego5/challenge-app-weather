@@ -16,8 +16,8 @@
           autocomplete="off"
         >
         <div class="content-list" *ngIf="cities?.length !== 0">
-          <ul *ngFor="let city of cities">
-            <li (click)="getWeatherByCityName(city)">
+          <ul>
+            <li *ngFor="let city of cities" (click)="getWeatherByCityName(city)">
               <span>{{city.name}}, {{city.country}}</span>
             </li>
           </ul>

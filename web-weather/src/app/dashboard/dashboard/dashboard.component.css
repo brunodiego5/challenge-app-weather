@@ -31,7 +31,6 @@
 
 .content form input {
   background: rgba(0, 0, 0, 0.1);
-  border: 0;
   border-radius: 20px;
   height: 44px;
   color: #fff;
@@ -52,12 +51,11 @@
 
 .content-list {
   position: absolute;
-  background: #fff;
-  width: 100%;
-  border-radius: 4px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
-  top: 44px;
+  background: transparent;
+  color: #fff;
   width: 315px;
+  border-radius: 4px;
+  top: 44px;
   right: 0;
 }
 
@@ -69,14 +67,20 @@
 }
 
 .content-list ul li{
-  height: 20px;
+  height: 24px;
   cursor: pointer;
   width: 100%;
   padding: 0 5px;
+  border-bottom: 1px solid gray;
+  text-align: center;
 
 }
 .content-list ul li:hover{
-  background: rgba(0, 0, 0, 0.3);
+  background:  #191970;
+}
+
+.content-list ul li span {
+  text-align: center;
 }
 
 .content p {
