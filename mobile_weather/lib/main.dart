@@ -32,10 +32,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var api = '10.0.2.2:8000';
+  //var api = '10.0.2.2:8000';
   //var api = '192.168.1.101:8000';
-  //var api = 'http://127.0.0.1:8000/';
-  //var api = '8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io';
+  //var api = '127.0.0.1:8000';
+  var api = '10.0.0.103:8000';
+  //var api = '8000-b2f11dc3-8200-4533-bfd1-6f840f8141a8.ws-us02.gitpod.io';
   var city;
   var temperature;
   var description;
@@ -62,15 +63,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future getWeatherGeo(lat, lon) async {
     var query = {"lat": lat.toString(), "lon": lon.toString()};
-    //var uri = Uri.http(api, '/weather/geo', query);
-    var uri = Uri.https(api, '/weather/geo', query);
+    var uri = Uri.http(api, '/weather/geo', query);
+    //var uri = Uri.https(api, '/weather/geo', query);
 
     var response = await http.get(uri);
+    print(response.body);
     var results = convert.jsonDecode(response.body);
+
     setState(() {
       this.city = results['city'];
       this.temperature = results['temperature'];
       this.description = results['description'];
+      this.description =
+          convert.utf8.encode(convert.ascii.decode(this.description));
       this.currently = results['currently'];
       this.date = results['date'];
     });
@@ -79,8 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<geo.Position> getPosition() async {
     geo.Geolocator geolocator = geo.Geolocator()
       ..forceAndroidLocationManager = true;
-    geo.GeolocationStatus geolocationStatus =
-        await geolocator.checkGeolocationPermissionStatus();
+    /*geo.GeolocationStatus geolocationStatus =
+        await geolocator.checkGeolocationPermissionStatus();*/
 
     geo.Position position = await geolocator.getCurrentPosition(
         desiredAccuracy: geo.LocationAccuracy.high);
@@ -90,8 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    this.getWeatherCity("guararapes");
+    //this.getWeatherCity("guararapes");
+    handleGetWeatherGeo();
+  }
 
+  void handleGetWeatherGeo() {
     var position = this.getPosition();
     position
         .then((p) => this.getWeatherGeo(p.latitude, p.longitude))
@@ -103,9 +111,53 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.blue,
-        height: MediaQuery.of(context).size.height,
+        body: Column(children: <Widget>[
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          decoration:
+              BoxDecoration(color: Colors.black, border: Border.all(width: 0)),
+          height: 100,
+          padding: EdgeInsets.fromLTRB(5, 30, 20, 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                  color: Colors.white,
+                  icon: FaIcon(FontAwesomeIcons.crosshairs),
+                  onPressed: () {
+                    handleGetWeatherGeo();
+                  }),
+              Expanded(
+                  child: Theme(
+                      data: ThemeData(
+                          primaryColor: Colors.white,
+                          primaryColorDark: Colors.black),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                            hintText: "pesquisar por cidade",
+                            hintStyle:
+                                TextStyle(fontSize: 15, color: Colors.grey),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)))),
+                      )))
+            ],
+          ),
+        ),
+      ),
+      Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.black, Colors.blue]),
+            border: Border.all(width: 0)),
+        height: MediaQuery.of(context).size.height - 100,
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -114,10 +166,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
               child: Text(
-                city != null ? city.toString() : "Loading",
+                city != null ? city : "Loading",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.0,
+                    fontSize: 40.0,
                     fontWeight: FontWeight.w600),
               ),
             ),
@@ -133,26 +185,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
-                currently != null ? currently.toString() : "Loading",
+                description != null ? description : "Loading",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Text(
-                description != null ? description.toString() : "Loading",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
+                    fontSize: 20.0,
                     fontWeight: FontWeight.w600),
               ),
             ),
           ],
         ),
       ),
-    );
+    ]));
   }
 }
