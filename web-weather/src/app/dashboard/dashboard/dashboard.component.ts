@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   city: City = new City();
   cities: City[] = [];
   loading = false;
+  loadingCity = false;
 
 
   constructor(private dashboardService: DashboardService,
@@ -79,5 +80,9 @@ export class DashboardComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+
+  isSearching() {
+    return this.searchControl.value == '' ? false : true;
   }
 }

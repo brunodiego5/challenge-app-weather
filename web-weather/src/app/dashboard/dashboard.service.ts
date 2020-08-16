@@ -8,8 +8,9 @@ import { City } from '../models';
 })
 export class DashboardService {
 
-  api = 'http://127.0.0.1:8000/';
-  //api = 'https://8000-d78d79d0-5c30-4e66-ba44-35d767daeab2.ws-us02.gitpod.io/';
+  //api = 'http://127.0.0.1:8000/';
+  api = 'https://8000-e8417229-3bb6-4f12-b904-a5c640402a3c.ws-us02.gitpod.io/';
+
 
   constructor(private http: HttpClient) { }
 
